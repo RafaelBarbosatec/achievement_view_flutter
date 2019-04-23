@@ -1,3 +1,12 @@
-## [0.0.1] - TODO: Add release date.
+## [0.0.1] - 23/04/2019.
 
-* TODO: Describe initial release.
+* Change Color
+* Change animantion content
+* change textStyle
+* Change card retangle or circle
+* listener status animation
+* change icon (widget)
+* change alignment in de screen
+* change duration show
+* change borderradiun in Retangle mode
+* set Title and SubTitle
