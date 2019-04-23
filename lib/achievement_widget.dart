@@ -52,6 +52,10 @@ class AchievementWidget extends StatefulWidget {
 
 class AchievementWidgetState extends State<AchievementWidget> with TickerProviderStateMixin{
 
+  static const HEIGHT_CARD = 50.0;
+  static const MARGIN_CARD = 20.0;
+  static const ELEVATION_CARD = 2.0;
+
   AnimationController _controllerScale;
   CurvedAnimation _curvedAnimationScale;
 
@@ -126,8 +130,8 @@ class AchievementWidgetState extends State<AchievementWidget> with TickerProvide
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        height: 50.0,
-        margin: EdgeInsets.all(20.0),
+        height: HEIGHT_CARD,
+        margin: EdgeInsets.all(MARGIN_CARD),
         child: ScaleTransition(
           scale: _curvedAnimationScale,
           child: _buildAchievement(),
@@ -138,7 +142,7 @@ class AchievementWidgetState extends State<AchievementWidget> with TickerProvide
 
   Widget _buildAchievement() {
     return Material(
-      elevation: 2.0,
+      elevation: ELEVATION_CARD,
       borderRadius: _buildBorderCard(),
       color: widget.color,
       child: InkWell(
@@ -159,10 +163,10 @@ class AchievementWidgetState extends State<AchievementWidget> with TickerProvide
     );
   }
 
-  _buildIcon() {
+  Widget _buildIcon() {
     return Container(
-      width: 50.0,
-      height: 50.0,
+      width: HEIGHT_CARD,
+      height: HEIGHT_CARD,
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.2),
         borderRadius: _buildBorderIcon()
@@ -171,7 +175,7 @@ class AchievementWidgetState extends State<AchievementWidget> with TickerProvide
     );
   }
 
-  _buildContent() {
+  Widget _buildContent() {
     return Flexible(
       child: SizeTransition(
         sizeFactor: _curvedAnimationSize,
@@ -191,7 +195,7 @@ class AchievementWidgetState extends State<AchievementWidget> with TickerProvide
     );
   }
 
-  _buildTitle() {
+  Widget _buildTitle() {
     return AnimatedBuilder(
       animation: _controllerTitle,
       builder: (_,child){
@@ -216,7 +220,7 @@ class AchievementWidgetState extends State<AchievementWidget> with TickerProvide
     );
   }
 
-  _buildSubTitle() {
+  Widget _buildSubTitle() {
     return AnimatedBuilder(
         animation: _controllerSubTitle,
         builder: (_,child){
@@ -238,22 +242,6 @@ class AchievementWidgetState extends State<AchievementWidget> with TickerProvide
         ),
       )
     );
-  }
-
-  void _startTime() {
-    Future.delayed(widget.duration,(){
-      _notifyListener(AchievementState.closing);
-      _controllerSubTitle.reverse();
-    });
-  }
-
-  @override
-  void dispose() {
-    _controllerScale.dispose();
-    _controllerSize.dispose();
-    _controllerTitle.dispose();
-    _controllerSubTitle.dispose();
-    super.dispose();
   }
 
   BorderRadiusGeometry _buildBorderIcon() {
@@ -310,5 +298,22 @@ class AchievementWidgetState extends State<AchievementWidget> with TickerProvide
       widget.listener(state);
     }
   }
+
+  void _startTime() {
+    Future.delayed(widget.duration,(){
+      _notifyListener(AchievementState.closing);
+      _controllerSubTitle.reverse();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controllerScale.dispose();
+    _controllerSize.dispose();
+    _controllerTitle.dispose();
+    _controllerSubTitle.dispose();
+    super.dispose();
+  }
+
 }
 

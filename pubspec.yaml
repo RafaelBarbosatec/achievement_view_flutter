@@ -1,8 +1,8 @@
 name: achievement_view
 description: Toast to show Achievements
 version: 0.0.1
-author: Rafael Almeida Barbosa
-homepage: https://github.com/RafaelBarbosatec
+author: RafaelBarbosatec<rafaelbarbosatec@gmail.com>
+homepage: https://github.com/RafaelBarbosatec/achievement_view_flutter
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
