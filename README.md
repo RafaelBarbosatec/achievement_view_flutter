@@ -4,7 +4,7 @@
 
 Beautiful toast to show Achievements in your application
 
-<img src="https://github.com/RafaelBarbosatec/achievement_view_flutter/blob/master/img/example.gif" width="400"/>
+![Usage of the hidden_drawer_menu widget on an android device](https://github.com/RafaelBarbosatec/achievement_view_flutter/blob/master/img/example.gif)
 
 ## Usage
 To use this plugin, add `achieviment_view` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
