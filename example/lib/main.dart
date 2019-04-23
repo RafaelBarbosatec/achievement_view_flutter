@@ -63,8 +63,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void show(BuildContext context){
     AchievementView(
         context,
-        title: "Opaaa!",
-        subTitle: "Treino finalizado com sucesso!",
+        title: "Yeaaah!",
+        subTitle: "Training completed successfully",
         isCircle: isCircle,
         listener: (status){
           print(status);
