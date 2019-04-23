@@ -1,14 +1,40 @@
-# achievement_view
+# AchievementView
 
-Toast to show Achievements
+Beautiful toast to show Achievements in your application
 
-## Getting Started
+<img src="https://github.com/RafaelBarbosatec/achievement_view_flutter/blob/master/img/example.gif" width="400"/>
 
-This project is a starting point for a Dart
-[package](https://flutter.io/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+## Usage
+To use this plugin, add `achieviment_view` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+### Example
+
+``` dart
+import 'package:flutter/material.dart';
+import 'package:achievement_view/achievement_view.dart';
+
+void showAchievementView(BuildContext context){
+    AchievementView(
+        context,
+        title: "Yeaaah!",
+        subTitle: "Training completed successfully",
+        //onTab: _onTabAchievement,
+        //icon: Icon(Icons.insert_emoticon, color: Colors.white,),
+        //typeAnimationContent: AnimationTypeAchievement.fadeSlideToUp,
+        //borderRadius: 5.0,
+        //color: Colors.blueGrey,
+        //textStyleTitle: TextStyle(),
+        //textStyleSubTitle: TextStyle(),
+        //alignment: Alignment.topCenter,
+        //duration: Duration(seconds: 3),
+        //isCircle: false,
+        listener: (status){
+          print(status);
+          //AchievementState.opening
+          //AchievementState.open
+          //AchievementState.closing
+          //AchievementState.closed
+        }
+    )..show();
+  }
+```
