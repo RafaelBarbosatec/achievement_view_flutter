@@ -1,16 +1,78 @@
 # achievement_view_demo
 
-A new Flutter application.
+``` dart
+import 'package:achievement_view/achievement_view.dart';
+import 'package:flutter/material.dart';
 
-## Getting Started
+void main() => runApp(MyApp());
 
-This project is a starting point for a Flutter application.
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
 
-A few resources to get you started if this is your first Flutter project:
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
+class _MyHomePageState extends State<MyHomePage> {
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+  bool isCircle = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Checkbox(
+                    value: isCircle,
+                    onChanged: (change){
+                      setState(() {
+                        isCircle = change;
+                      });
+                    },
+                  ),
+                  Text("isCircle")
+                ],
+              ),
+              RaisedButton(
+                  child: Text("Show"),
+                  onPressed: (){
+                    show(context);
+                  })
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void show(BuildContext context){
+    AchievementView(
+        context,
+        title: "Yeaaah!",
+        subTitle: "Training completed successfully",
+        isCircle: isCircle,
+        listener: (status){
+          print(status);
+        }
+    )..show();
+  }
+}
+```
