@@ -49,6 +49,8 @@ class AchievementView{
               subTitle: subTitle,
               duration: duration,
               listener: listener,
+              textStyleSubTitle: textStyleSubTitle,
+              textStyleTitle: textStyleTitle,
               onTab: onTab,
               isCircle: isCircle,
               icon: icon,
