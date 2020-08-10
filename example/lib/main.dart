@@ -23,7 +23,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   bool isCircle = false;
 
   @override
@@ -39,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   Checkbox(
                     value: isCircle,
-                    onChanged: (change){
+                    onChanged: (change) {
                       setState(() {
                         isCircle = change;
                       });
@@ -50,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               RaisedButton(
                   child: Text("Show"),
-                  onPressed: (){
+                  onPressed: () {
                     show(context);
                   })
             ],
@@ -60,15 +59,15 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void show(BuildContext context){
+  void show(BuildContext context) {
     AchievementView(
-        context,
-        title: "Yeaaah!",
-        subTitle: "Training completed successfully",
-        isCircle: isCircle,
-        listener: (status){
-          print(status);
-        }
+      context,
+      title: "Yeaaah!",
+      subTitle: "Training completed successfully ",
+      isCircle: isCircle,
+      listener: (status) {
+        print(status);
+      },
     )..show();
   }
 }

@@ -16,11 +16,13 @@ class AchievementView {
   final TextStyle textStyleSubTitle;
   final String title;
   final String subTitle;
+  final double height;
 
   OverlayEntry _overlayEntry;
 
   AchievementView(
     this._context, {
+    this.height,
     this.onTab,
     this.listener,
     this.isCircle = false,
@@ -50,6 +52,7 @@ class AchievementView {
           listener: listener,
           onTab: onTab,
           isCircle: isCircle,
+          height: height,
           textStyleSubTitle: textStyleSubTitle,
           textStyleTitle: textStyleTitle,
           icon: icon,

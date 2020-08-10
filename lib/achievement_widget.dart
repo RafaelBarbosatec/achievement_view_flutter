@@ -22,31 +22,33 @@ class AchievementWidget extends StatefulWidget {
   final Widget icon;
   final AnimationTypeAchievement typeAnimationContent;
   final double borderRadius;
+  final double height;
   final Color color;
   final TextStyle textStyleTitle;
   final TextStyle textStyleSubTitle;
   final String title;
   final String subTitle;
 
-  const AchievementWidget(
-      {Key key,
-      this.finish,
-      this.duration = const Duration(seconds: 3),
-      this.listener,
-      this.isCircle = false,
-      this.icon = const Icon(
-        Icons.insert_emoticon,
-        color: Colors.white,
-      ),
-      this.onTab,
-      this.typeAnimationContent = AnimationTypeAchievement.fadeSlideToUp,
-      this.borderRadius = 5.0,
-      this.color = Colors.blueGrey,
-      this.textStyleTitle,
-      this.textStyleSubTitle,
-      this.title = "",
-      this.subTitle = ""})
-      : super(key: key);
+  const AchievementWidget({
+    Key key,
+    this.finish,
+    this.duration = const Duration(seconds: 3),
+    this.listener,
+    this.isCircle = false,
+    this.icon = const Icon(
+      Icons.insert_emoticon,
+      color: Colors.white,
+    ),
+    this.onTab,
+    this.typeAnimationContent = AnimationTypeAchievement.fadeSlideToUp,
+    this.borderRadius = 5.0,
+    this.height,
+    this.color = Colors.blueGrey,
+    this.textStyleTitle,
+    this.textStyleSubTitle,
+    this.title = "",
+    this.subTitle = "",
+  }) : super(key: key);
 
   @override
   AchievementWidgetState createState() => AchievementWidgetState();
@@ -54,7 +56,7 @@ class AchievementWidget extends StatefulWidget {
 
 class AchievementWidgetState extends State<AchievementWidget>
     with TickerProviderStateMixin {
-  static const HEIGHT_CARD = 50.0;
+  static const HEIGHT_CARD = 60.0;
   static const MARGIN_CARD = 20.0;
   static const ELEVATION_CARD = 2.0;
 
@@ -138,7 +140,7 @@ class AchievementWidgetState extends State<AchievementWidget>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        height: HEIGHT_CARD,
+        constraints: BoxConstraints(minHeight: HEIGHT_CARD),
         margin: EdgeInsets.all(MARGIN_CARD),
         child: ScaleTransition(
           scale: _curvedAnimationScale,
@@ -161,8 +163,10 @@ class AchievementWidgetState extends State<AchievementWidget>
         },
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[_buildIcon(), _buildContent()],
+          children: <Widget>[
+            _buildIcon(),
+            _buildContent(),
+          ],
         ),
       ),
     );
@@ -171,30 +175,36 @@ class AchievementWidgetState extends State<AchievementWidget>
   Widget _buildIcon() {
     return Container(
       width: HEIGHT_CARD,
-      height: HEIGHT_CARD,
-      decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.2),
-          borderRadius: _buildBorderIcon()),
       child: widget.icon,
     );
   }
 
   Widget _buildContent() {
     return Flexible(
-      child: SizeTransition(
-        sizeFactor: _curvedAnimationSize,
-        axis: Axis.horizontal,
-        child: Padding(
-          padding: _buildPaddingContent(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _buildTitle(),
-              _buildSubTitle(),
-            ],
-          ),
-        ),
+      child: AnimatedBuilder(
+        animation: _curvedAnimationSize,
+        builder: (context, child) {
+          return Align(
+            widthFactor: _curvedAnimationSize.value,
+            heightFactor: 1,
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: _buildPaddingContent(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  _buildTitle(),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  _buildSubTitle(),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -234,14 +244,14 @@ class AchievementWidgetState extends State<AchievementWidget>
         },
         child: Text(
           widget.subTitle,
-          maxLines: 1,
           style: TextStyle(color: Colors.white).merge(widget.textStyleSubTitle),
         ));
   }
 
   BorderRadiusGeometry _buildBorderIcon() {
     if (widget.isCircle) {
-      return BorderRadius.all(Radius.circular(25.0));
+      return BorderRadius.all(Radius.circular(
+          widget.height != null ? (widget.height / 2) : (HEIGHT_CARD / 2)));
     }
     return BorderRadius.only(
       topLeft: Radius.circular(widget.borderRadius),
@@ -251,16 +261,16 @@ class AchievementWidgetState extends State<AchievementWidget>
 
   BorderRadiusGeometry _buildBorderCard() {
     if (widget.isCircle) {
-      return BorderRadius.all(Radius.circular(25.0));
+      return BorderRadius.all(Radius.circular(100));
     }
     return BorderRadius.all(Radius.circular(widget.borderRadius));
   }
 
   EdgeInsets _buildPaddingContent() {
     if (widget.isCircle) {
-      return EdgeInsets.only(left: 15.0, right: 25.0);
+      return EdgeInsets.only(left: 15.0, right: 25.0, top: 15.0, bottom: 15.0);
     }
-    return EdgeInsets.only(left: 15.0, right: 15.0);
+    return EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0);
   }
 
   Animation<Offset> _buildAnimatedContent(AnimationController controller) {
