@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
     AchievementView(
       context,
       title: "Yeaaah!",
-      subTitle: "Training completed successfully ",
+      subTitle: "Training completed successfully! ",
       isCircle: isCircle,
       listener: (status) {
         print(status);

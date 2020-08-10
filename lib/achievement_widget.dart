@@ -22,7 +22,7 @@ class AchievementWidget extends StatefulWidget {
   final Widget icon;
   final AnimationTypeAchievement typeAnimationContent;
   final double borderRadius;
-  final double height;
+  final double elevation;
   final Color color;
   final TextStyle textStyleTitle;
   final TextStyle textStyleSubTitle;
@@ -35,6 +35,7 @@ class AchievementWidget extends StatefulWidget {
     this.duration = const Duration(seconds: 3),
     this.listener,
     this.isCircle = false,
+    this.elevation = 2,
     this.icon = const Icon(
       Icons.insert_emoticon,
       color: Colors.white,
@@ -42,7 +43,6 @@ class AchievementWidget extends StatefulWidget {
     this.onTab,
     this.typeAnimationContent = AnimationTypeAchievement.fadeSlideToUp,
     this.borderRadius = 5.0,
-    this.height,
     this.color = Colors.blueGrey,
     this.textStyleTitle,
     this.textStyleSubTitle,
@@ -58,7 +58,6 @@ class AchievementWidgetState extends State<AchievementWidget>
     with TickerProviderStateMixin {
   static const HEIGHT_CARD = 60.0;
   static const MARGIN_CARD = 20.0;
-  static const ELEVATION_CARD = 2.0;
 
   AnimationController _controllerScale;
   CurvedAnimation _curvedAnimationScale;
@@ -152,7 +151,7 @@ class AchievementWidgetState extends State<AchievementWidget>
 
   Widget _buildAchievement() {
     return Material(
-      elevation: ELEVATION_CARD,
+      elevation: widget.elevation,
       borderRadius: _buildBorderCard(),
       color: widget.color,
       child: InkWell(
@@ -196,9 +195,7 @@ class AchievementWidgetState extends State<AchievementWidget>
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   _buildTitle(),
-                  SizedBox(
-                    height: 4,
-                  ),
+                  SizedBox(height: 2),
                   _buildSubTitle(),
                 ],
               ),
@@ -248,17 +245,6 @@ class AchievementWidgetState extends State<AchievementWidget>
         ));
   }
 
-  BorderRadiusGeometry _buildBorderIcon() {
-    if (widget.isCircle) {
-      return BorderRadius.all(Radius.circular(
-          widget.height != null ? (widget.height / 2) : (HEIGHT_CARD / 2)));
-    }
-    return BorderRadius.only(
-      topLeft: Radius.circular(widget.borderRadius),
-      bottomLeft: Radius.circular(widget.borderRadius),
-    );
-  }
-
   BorderRadiusGeometry _buildBorderCard() {
     if (widget.isCircle) {
       return BorderRadius.all(Radius.circular(100));
@@ -268,9 +254,9 @@ class AchievementWidgetState extends State<AchievementWidget>
 
   EdgeInsets _buildPaddingContent() {
     if (widget.isCircle) {
-      return EdgeInsets.only(left: 15.0, right: 25.0, top: 15.0, bottom: 15.0);
+      return EdgeInsets.only(right: 25.0, top: 15.0, bottom: 15.0);
     }
-    return EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0, bottom: 15.0);
+    return EdgeInsets.only(right: 15.0, top: 15.0, bottom: 15.0);
   }
 
   Animation<Offset> _buildAnimatedContent(AnimationController controller) {
