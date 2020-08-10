@@ -1,7 +1,6 @@
 name: achievement_view
 description: Beautiful toast to show Achievements in your application in a simple way
 version: 0.2.1
-author: RafaelBarbosatec<rafaelbarbosatec@gmail.com>
 homepage: https://github.com/RafaelBarbosatec/achievement_view_flutter
 
 environment:
