@@ -1,4 +1,5 @@
 [![pub package](https://img.shields.io/pub/v/achievement_view.svg)](https://pub.dartlang.org/packages/achievement_view)
+[![buymeacoffee](https://i.imgur.com/aV6DDA7.png)](https://www.buymeacoffee.com/rafaelbarbosa)
 
 # AchievementView
 
