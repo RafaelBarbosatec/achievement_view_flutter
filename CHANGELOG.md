@@ -1,3 +1,8 @@
+## [0.2.1] - 10/08/2020.
+
+* Remove icon background.
+* Remove fixed height.
+
 ## [0.2.0] - 23/04/2019.
 
 * Fix bug tetStyle
