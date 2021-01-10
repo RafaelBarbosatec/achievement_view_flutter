@@ -17,11 +17,13 @@ class AchievementView {
   final String title;
   final String subTitle;
   final double elevation;
+  final OverlayState overlay;
 
   OverlayEntry _overlayEntry;
 
   AchievementView(
     this._context, {
+    this.overlay,
     this.elevation = 2,
     this.onTab,
     this.listener,
@@ -70,7 +72,7 @@ class AchievementView {
   void show() {
     if (_overlayEntry == null) {
       _overlayEntry = _buildOverlay();
-      Overlay.of(_context).insert(_overlayEntry);
+      (overlay ?? Overlay.of(_context)).insert(_overlayEntry);
     }
   }
 
