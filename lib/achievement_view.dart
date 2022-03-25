@@ -10,7 +10,8 @@ class AchievementView {
   final bool isCircle;
   final Widget icon;
   final AnimationTypeAchievement typeAnimationContent;
-  final double borderRadius;
+  final BorderRadiusGeometry? borderRadius;
+  final BorderRadiusGeometry? iconBorderRadius;
   final Color color;
   final Color? iconBackgroundColor;
   final TextStyle? textStyleTitle;
@@ -24,7 +25,6 @@ class AchievementView {
 
   AchievementView(
     this._context, {
-    this.overlay,
     this.elevation = 2,
     this.onTap,
     this.listener,
@@ -35,7 +35,8 @@ class AchievementView {
       color: Colors.white,
     ),
     this.typeAnimationContent = AnimationTypeAchievement.fadeSlideToUp,
-    this.borderRadius = 5.0,
+    this.borderRadius,
+    this.iconBorderRadius,
     this.color = Colors.blueGrey,
     this.iconBackgroundColor,
     this.textStyleTitle,
@@ -63,11 +64,10 @@ class AchievementView {
           icon: icon,
           typeAnimationContent: typeAnimationContent,
           borderRadius: borderRadius,
+          iconBorderRadius: iconBorderRadius,
           color: color,
           iconBackgroundColor: iconBackgroundColor,
-          finish: () {
-            _hide();
-          },
+          finish: _hide,
         ),
       );
     });

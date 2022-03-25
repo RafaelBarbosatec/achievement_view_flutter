@@ -14,17 +14,18 @@ enum AnimationTypeAchievement {
 }
 
 class AchievementWidget extends StatefulWidget {
-  final Function() finish;
+  final VoidCallback? finish;
   final GestureTapCallback? onTap;
-  final Function(AchievementState)? listener;
+  final ValueChanged<AchievementState>? listener;
   final Duration duration;
   final bool isCircle;
   final Widget icon;
   final AnimationTypeAchievement typeAnimationContent;
-  final double borderRadius;
+  final BorderRadiusGeometry? borderRadius;
   final double elevation;
   final Color color;
   final Color? iconBackgroundColor;
+  final BorderRadiusGeometry? iconBorderRadius;
   final TextStyle? textStyleTitle;
   final TextStyle? textStyleSubTitle;
   final String title;
@@ -32,7 +33,7 @@ class AchievementWidget extends StatefulWidget {
 
   const AchievementWidget({
     Key? key,
-    required this.finish,
+    this.finish,
     this.duration = const Duration(seconds: 3),
     this.listener,
     this.isCircle = false,
@@ -43,9 +44,10 @@ class AchievementWidget extends StatefulWidget {
     ),
     this.onTap,
     this.typeAnimationContent = AnimationTypeAchievement.fadeSlideToUp,
-    this.borderRadius = 5.0,
+    this.borderRadius,
     this.color = Colors.blueGrey,
     this.iconBackgroundColor,
+    this.iconBorderRadius,
     this.textStyleTitle,
     this.textStyleSubTitle,
     this.title = "",
@@ -85,7 +87,7 @@ class AchievementWidgetState extends State<AchievementWidget>
             }
             if (status == AnimationStatus.dismissed) {
               _notifyListener(AchievementState.closed);
-              widget.finish();
+              widget.finish?.call();
             }
           });
 
@@ -174,7 +176,7 @@ class AchievementWidgetState extends State<AchievementWidget>
   Widget _buildIcon() {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: _buildBorderCard(),
+        borderRadius: widget.iconBorderRadius,
         color: widget.iconBackgroundColor,
       ),
       width: heightCard,
@@ -253,9 +255,9 @@ class AchievementWidgetState extends State<AchievementWidget>
 
   BorderRadiusGeometry _buildBorderCard() {
     if (widget.isCircle) {
-      return const BorderRadius.all(Radius.circular(100));
+      return const BorderRadius.all(Radius.circular(heightCard / 2));
     }
-    return BorderRadius.all(Radius.circular(widget.borderRadius));
+    return widget.borderRadius ?? const BorderRadius.all(Radius.circular(5));
   }
 
   EdgeInsets _buildPaddingContent() => EdgeInsets.fromLTRB(
