@@ -24,6 +24,7 @@ class AchievementView {
 
   AchievementView(
     this._context, {
+    this.overlay,
     this.elevation = 2,
     this.onTap,
     this.listener,
