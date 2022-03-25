@@ -1,5 +1,6 @@
 name: achievement_view_demo
 description: A new Flutter application.
+publish_to: none
 
 version: 1.0.0+1
 
@@ -13,7 +14,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   achievement_view:
-    path: ../
+    path: ".."
 
 dev_dependencies:
   flutter_lints: ^1.0.4
