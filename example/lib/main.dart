@@ -1,9 +1,10 @@
 import 'package:achievement_view/achievement_view.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -12,12 +13,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -28,32 +31,25 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Checkbox(
-                    value: isCircle,
-                    onChanged: (change) {
-                      setState(() {
-                        isCircle = change;
-                      });
-                    },
-                  ),
-                  Text("isCircle")
-                ],
-              ),
-              RaisedButton(
-                  child: Text("Show"),
-                  onPressed: () {
-                    show(context);
-                  })
-            ],
-          ),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Checkbox(
+                  value: isCircle,
+                  onChanged: (change) => setState(() => isCircle = change!),
+                ),
+                const Text("isCircle")
+              ],
+            ),
+            ElevatedButton(
+              child: const Text("Show"),
+              onPressed: () => show(context),
+            )
+          ],
         ),
       ),
     );
@@ -65,9 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: "Yeaaah!",
       subTitle: "Training completed successfully! ",
       isCircle: isCircle,
-      listener: (status) {
-        print(status);
-      },
-    )..show();
+      listener: print,
+    ).show();
   }
 }
