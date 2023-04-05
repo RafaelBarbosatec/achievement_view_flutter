@@ -20,32 +20,31 @@ class AchievementView {
   final String subTitle;
   final double elevation;
   final OverlayState? overlay;
-
+  final Widget? customContent;
   OverlayEntry? _overlayEntry;
 
-  AchievementView(
-    this._context, {
-    this.elevation = 2,
-    this.onTap,
-    this.listener,
-    this.overlay,
-    this.isCircle = false,
-    this.icon = const Icon(
-      Icons.insert_emoticon,
-      color: Colors.white,
-    ),
-    this.typeAnimationContent = AnimationTypeAchievement.fadeSlideToUp,
-    this.borderRadius,
-    this.iconBorderRadius,
-    this.color = Colors.blueGrey,
-    this.iconBackgroundColor,
-    this.textStyleTitle,
-    this.textStyleSubTitle,
-    this.alignment = Alignment.topCenter,
-    this.duration = const Duration(seconds: 3),
-    this.title = "My Title",
-    this.subTitle = "My subtitle with max 1 line",
-  });
+  AchievementView(this._context,
+      {this.elevation = 2,
+      this.onTap,
+      this.listener,
+      this.overlay,
+      this.isCircle = false,
+      this.icon = const Icon(
+        Icons.insert_emoticon,
+        color: Colors.white,
+      ),
+      this.typeAnimationContent = AnimationTypeAchievement.fadeSlideToUp,
+      this.borderRadius,
+      this.iconBorderRadius,
+      this.color = Colors.blueGrey,
+      this.iconBackgroundColor,
+      this.textStyleTitle,
+      this.textStyleSubTitle,
+      this.alignment = Alignment.topCenter,
+      this.duration = const Duration(seconds: 3),
+      this.title = "My Title",
+      this.subTitle = "My subtitle with max 1 line",
+      this.customContent});
 
   OverlayEntry _buildOverlay() {
     return OverlayEntry(builder: (context) {
@@ -54,6 +53,7 @@ class AchievementView {
         child: AchievementWidget(
           title: title,
           subTitle: subTitle,
+          customContent: customContent,
           duration: duration,
           listener: listener,
           onTap: onTap,
