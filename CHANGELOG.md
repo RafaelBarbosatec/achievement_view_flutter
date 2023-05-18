@@ -1,6 +1,6 @@
 ## [1.0.1]
 - Adds `content` param to pass custom widget in your content.Thanks [robisaks](https://github.com/robisaks)
-- Migrate paraem `context` to `show` method.
+- Migrate param `context` to `show` method.
 
 ## [1.0.0]
 
