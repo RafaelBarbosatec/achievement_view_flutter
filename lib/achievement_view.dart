@@ -2,7 +2,6 @@ import 'package:achievement_view/achievement_widget.dart';
 import 'package:flutter/material.dart';
 
 class AchievementView {
-  final BuildContext _context;
   final AlignmentGeometry alignment;
   final Duration duration;
   final GestureTapCallback? onTap;
@@ -16,15 +15,14 @@ class AchievementView {
   final Color? iconBackgroundColor;
   final TextStyle? textStyleTitle;
   final TextStyle? textStyleSubTitle;
-  final String title;
-  final String subTitle;
+  final String? title;
+  final String? subTitle;
   final double elevation;
   final OverlayState? overlay;
-
+  final Widget? content;
   OverlayEntry? _overlayEntry;
 
-  AchievementView(
-    this._context, {
+  AchievementView({
     this.elevation = 2,
     this.onTap,
     this.listener,
@@ -43,8 +41,9 @@ class AchievementView {
     this.textStyleSubTitle,
     this.alignment = Alignment.topCenter,
     this.duration = const Duration(seconds: 3),
-    this.title = "My Title",
-    this.subTitle = "My subtitle with max 1 line",
+    this.title,
+    this.subTitle,
+    this.content,
   });
 
   OverlayEntry _buildOverlay() {
@@ -54,6 +53,7 @@ class AchievementView {
         child: AchievementWidget(
           title: title,
           subTitle: subTitle,
+          content: content,
           duration: duration,
           listener: listener,
           onTap: onTap,
@@ -73,10 +73,10 @@ class AchievementView {
     });
   }
 
-  void show() {
+  void show(BuildContext context) {
     if (_overlayEntry == null) {
       _overlayEntry = _buildOverlay();
-      (overlay ?? Overlay.of(_context))?.insert(_overlayEntry!);
+      (overlay ?? Overlay.of(context)).insert(_overlayEntry!);
     }
   }
 

@@ -18,9 +18,9 @@ import 'package:achievement_view/achievement_view.dart';
 
 void showAchievementView(BuildContext context){
     AchievementView(
-        context,
         title: "Yeaaah!",
         subTitle: "Training completed successfully",
+        //content: Widget() 
         //onTab: _onTabAchievement,
         //icon: Icon(Icons.insert_emoticon, color: Colors.white,),
         //typeAnimationContent: AnimationTypeAchievement.fadeSlideToUp,
@@ -38,6 +38,6 @@ void showAchievementView(BuildContext context){
           //AchievementState.closing
           //AchievementState.closed
         }
-    )..show();
+    ).show(context);
   }
 ```
