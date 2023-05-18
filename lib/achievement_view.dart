@@ -2,7 +2,6 @@ import 'package:achievement_view/achievement_widget.dart';
 import 'package:flutter/material.dart';
 
 class AchievementView {
-  final BuildContext _context;
   final AlignmentGeometry alignment;
   final Duration duration;
   final GestureTapCallback? onTap;
@@ -16,35 +15,36 @@ class AchievementView {
   final Color? iconBackgroundColor;
   final TextStyle? textStyleTitle;
   final TextStyle? textStyleSubTitle;
-  final String title;
-  final String subTitle;
+  final String? title;
+  final String? subTitle;
   final double elevation;
   final OverlayState? overlay;
-  final Widget? customContent;
+  final Widget? content;
   OverlayEntry? _overlayEntry;
 
-  AchievementView(this._context,
-      {this.elevation = 2,
-      this.onTap,
-      this.listener,
-      this.overlay,
-      this.isCircle = false,
-      this.icon = const Icon(
-        Icons.insert_emoticon,
-        color: Colors.white,
-      ),
-      this.typeAnimationContent = AnimationTypeAchievement.fadeSlideToUp,
-      this.borderRadius,
-      this.iconBorderRadius,
-      this.color = Colors.blueGrey,
-      this.iconBackgroundColor,
-      this.textStyleTitle,
-      this.textStyleSubTitle,
-      this.alignment = Alignment.topCenter,
-      this.duration = const Duration(seconds: 3),
-      this.title = "My Title",
-      this.subTitle = "My subtitle with max 1 line",
-      this.customContent});
+  AchievementView({
+    this.elevation = 2,
+    this.onTap,
+    this.listener,
+    this.overlay,
+    this.isCircle = false,
+    this.icon = const Icon(
+      Icons.insert_emoticon,
+      color: Colors.white,
+    ),
+    this.typeAnimationContent = AnimationTypeAchievement.fadeSlideToUp,
+    this.borderRadius,
+    this.iconBorderRadius,
+    this.color = Colors.blueGrey,
+    this.iconBackgroundColor,
+    this.textStyleTitle,
+    this.textStyleSubTitle,
+    this.alignment = Alignment.topCenter,
+    this.duration = const Duration(seconds: 3),
+    this.title,
+    this.subTitle,
+    this.content,
+  });
 
   OverlayEntry _buildOverlay() {
     return OverlayEntry(builder: (context) {
@@ -53,7 +53,7 @@ class AchievementView {
         child: AchievementWidget(
           title: title,
           subTitle: subTitle,
-          customContent: customContent,
+          content: content,
           duration: duration,
           listener: listener,
           onTap: onTap,
@@ -73,10 +73,10 @@ class AchievementView {
     });
   }
 
-  void show() {
+  void show(BuildContext context) {
     if (_overlayEntry == null) {
       _overlayEntry = _buildOverlay();
-      (overlay ?? Overlay.of(_context))?.insert(_overlayEntry!);
+      (overlay ?? Overlay.of(context)).insert(_overlayEntry!);
     }
   }
 

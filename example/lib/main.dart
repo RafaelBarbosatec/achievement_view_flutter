@@ -57,11 +57,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void show(BuildContext context) {
     AchievementView(
-      context,
       title: "Yeaaah!",
       subTitle: "Training completed successfully! ",
       isCircle: isCircle,
       listener: print,
-    ).show();
+    ).show(context);
   }
 }

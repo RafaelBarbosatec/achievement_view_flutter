@@ -1,6 +1,6 @@
 name: achievement_view
 description: Beautiful toast to show Achievements in your application in a simple way
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/RafaelBarbosatec/achievement_view_flutter
 
 environment:
@@ -11,7 +11,7 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
-  flutter_lints: ^1.0.4
+  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
 

@@ -28,9 +28,9 @@ class AchievementWidget extends StatefulWidget {
   final BorderRadiusGeometry? iconBorderRadius;
   final TextStyle? textStyleTitle;
   final TextStyle? textStyleSubTitle;
-  final String title;
-  final String subTitle;
-  final Widget? customContent;
+  final String? title;
+  final String? subTitle;
+  final Widget? content;
 
   const AchievementWidget({
     Key? key,
@@ -51,9 +51,9 @@ class AchievementWidget extends StatefulWidget {
     this.iconBorderRadius,
     this.textStyleTitle,
     this.textStyleSubTitle,
-    this.title = "",
-    this.subTitle = "",
-    this.customContent,
+    this.title,
+    this.subTitle,
+    this.content,
   }) : super(key: key);
 
   @override
@@ -80,7 +80,9 @@ class AchievementWidgetState extends State<AchievementWidget>
   @override
   void initState() {
     _controllerScale = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 300));
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
     _curvedAnimationScale =
         CurvedAnimation(parent: _controllerScale, curve: Curves.easeInOut)
           ..addStatusListener((status) {
@@ -94,8 +96,9 @@ class AchievementWidgetState extends State<AchievementWidget>
           });
 
     _controllerSize = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500))
-      ..addStatusListener((status) {
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    )..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           _controllerTitle.forward();
         }
@@ -103,12 +106,15 @@ class AchievementWidgetState extends State<AchievementWidget>
           _controllerScale.reverse();
         }
       });
-    _curvedAnimationSize =
-        CurvedAnimation(parent: _controllerSize, curve: Curves.ease);
+    _curvedAnimationSize = CurvedAnimation(
+      parent: _controllerSize,
+      curve: Curves.ease,
+    );
 
     _controllerTitle = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 250))
-      ..addStatusListener((status) {
+      vsync: this,
+      duration: const Duration(milliseconds: 250),
+    )..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           _controllerSubTitle.forward();
         }
@@ -120,8 +126,9 @@ class AchievementWidgetState extends State<AchievementWidget>
     _titleSlideUp = _buildAnimatedContent(_controllerTitle);
 
     _controllerSubTitle = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 250))
-      ..addStatusListener((status) {
+      vsync: this,
+      duration: const Duration(milliseconds: 250),
+    )..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           _notifyListener(AchievementState.open);
           _startTime();
@@ -198,16 +205,19 @@ class AchievementWidgetState extends State<AchievementWidget>
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: _buildPaddingContent(),
-              child: widget.customContent ??
+              child: widget.content ??
                   Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        _buildTitle(),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      if (widget.title != null) _buildTitle(widget.title!),
+                      if (widget.subTitle != null) ...[
                         const SizedBox(height: 2),
-                        _buildSubTitle(),
-                      ]),
+                        _buildSubTitle(widget.subTitle!),
+                      ],
+                    ],
+                  ),
             ),
           );
         },
@@ -215,7 +225,7 @@ class AchievementWidgetState extends State<AchievementWidget>
     );
   }
 
-  Widget _buildTitle() {
+  Widget _buildTitle(String title) {
     return AnimatedBuilder(
       animation: _controllerTitle,
       builder: (_, child) {
@@ -228,7 +238,7 @@ class AchievementWidgetState extends State<AchievementWidget>
         );
       },
       child: Text(
-        widget.title,
+        title,
         softWrap: true,
         style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)
             .merge(widget.textStyleTitle),
@@ -236,7 +246,7 @@ class AchievementWidgetState extends State<AchievementWidget>
     );
   }
 
-  Widget _buildSubTitle() {
+  Widget _buildSubTitle(String subTitle) {
     return AnimatedBuilder(
         animation: _controllerSubTitle,
         builder: (_, child) {
@@ -249,7 +259,7 @@ class AchievementWidgetState extends State<AchievementWidget>
           );
         },
         child: Text(
-          widget.subTitle,
+          subTitle,
           style: const TextStyle(color: Colors.white)
               .merge(widget.textStyleSubTitle),
         ));
