@@ -1,3 +1,9 @@
+## [1.0.0]
+
+- Migrate to Null Safety [PR #09](https://github.com/RafaelBarbosatec/achievement_view_flutter/pull/9).
+- Adds `iconBackground` param.
+- Adds `iconBorderRadius` param.
+
 ## [0.2.1] - 10/08/2020.
 
 * Remove icon background.

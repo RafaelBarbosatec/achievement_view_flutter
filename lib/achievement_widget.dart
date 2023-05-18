@@ -14,23 +14,25 @@ enum AnimationTypeAchievement {
 }
 
 class AchievementWidget extends StatefulWidget {
-  final Function() finish;
-  final GestureTapCallback onTab;
-  final Function(AchievementState) listener;
+  final VoidCallback? finish;
+  final GestureTapCallback? onTap;
+  final ValueChanged<AchievementState>? listener;
   final Duration duration;
   final bool isCircle;
   final Widget icon;
   final AnimationTypeAchievement typeAnimationContent;
-  final double borderRadius;
+  final BorderRadiusGeometry? borderRadius;
   final double elevation;
   final Color color;
-  final TextStyle textStyleTitle;
-  final TextStyle textStyleSubTitle;
+  final Color? iconBackgroundColor;
+  final BorderRadiusGeometry? iconBorderRadius;
+  final TextStyle? textStyleTitle;
+  final TextStyle? textStyleSubTitle;
   final String title;
   final String subTitle;
 
   const AchievementWidget({
-    Key key,
+    Key? key,
     this.finish,
     this.duration = const Duration(seconds: 3),
     this.listener,
@@ -40,10 +42,12 @@ class AchievementWidget extends StatefulWidget {
       Icons.insert_emoticon,
       color: Colors.white,
     ),
-    this.onTab,
+    this.onTap,
     this.typeAnimationContent = AnimationTypeAchievement.fadeSlideToUp,
-    this.borderRadius = 5.0,
+    this.borderRadius,
     this.color = Colors.blueGrey,
+    this.iconBackgroundColor,
+    this.iconBorderRadius,
     this.textStyleTitle,
     this.textStyleSubTitle,
     this.title = "",
@@ -56,25 +60,25 @@ class AchievementWidget extends StatefulWidget {
 
 class AchievementWidgetState extends State<AchievementWidget>
     with TickerProviderStateMixin {
-  static const HEIGHT_CARD = 60.0;
-  static const MARGIN_CARD = 20.0;
+  static const heightCard = 60.0;
+  static const marginCard = 20.0;
 
-  AnimationController _controllerScale;
-  CurvedAnimation _curvedAnimationScale;
+  late AnimationController _controllerScale;
+  late CurvedAnimation _curvedAnimationScale;
 
-  AnimationController _controllerSize;
-  CurvedAnimation _curvedAnimationSize;
+  late AnimationController _controllerSize;
+  late CurvedAnimation _curvedAnimationSize;
 
-  AnimationController _controllerTitle;
-  Animation<Offset> _titleSlideUp;
+  late AnimationController _controllerTitle;
+  late Animation<Offset> _titleSlideUp;
 
-  AnimationController _controllerSubTitle;
-  Animation<Offset> _subTitleSlideUp;
+  late AnimationController _controllerSubTitle;
+  late Animation<Offset> _subTitleSlideUp;
 
   @override
   void initState() {
-    _controllerScale =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    _controllerScale = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300));
     _curvedAnimationScale =
         CurvedAnimation(parent: _controllerScale, curve: Curves.easeInOut)
           ..addStatusListener((status) {
@@ -83,47 +87,47 @@ class AchievementWidgetState extends State<AchievementWidget>
             }
             if (status == AnimationStatus.dismissed) {
               _notifyListener(AchievementState.closed);
-              widget.finish();
+              widget.finish?.call();
             }
           });
 
-    _controllerSize =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500))
-          ..addStatusListener((status) {
-            if (status == AnimationStatus.completed) {
-              _controllerTitle.forward();
-            }
-            if (status == AnimationStatus.dismissed) {
-              _controllerScale.reverse();
-            }
-          });
+    _controllerSize = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500))
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _controllerTitle.forward();
+        }
+        if (status == AnimationStatus.dismissed) {
+          _controllerScale.reverse();
+        }
+      });
     _curvedAnimationSize =
         CurvedAnimation(parent: _controllerSize, curve: Curves.ease);
 
-    _controllerTitle =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 250))
-          ..addStatusListener((status) {
-            if (status == AnimationStatus.completed) {
-              _controllerSubTitle.forward();
-            }
-            if (status == AnimationStatus.dismissed) {
-              _controllerSize.reverse();
-            }
-          });
+    _controllerTitle = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 250))
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _controllerSubTitle.forward();
+        }
+        if (status == AnimationStatus.dismissed) {
+          _controllerSize.reverse();
+        }
+      });
 
     _titleSlideUp = _buildAnimatedContent(_controllerTitle);
 
-    _controllerSubTitle =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 250))
-          ..addStatusListener((status) {
-            if (status == AnimationStatus.completed) {
-              _notifyListener(AchievementState.open);
-              _startTime();
-            }
-            if (status == AnimationStatus.dismissed) {
-              _controllerTitle.reverse();
-            }
-          });
+    _controllerSubTitle = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 250))
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _notifyListener(AchievementState.open);
+          _startTime();
+        }
+        if (status == AnimationStatus.dismissed) {
+          _controllerTitle.reverse();
+        }
+      });
 
     _subTitleSlideUp = _buildAnimatedContent(_controllerSubTitle);
     super.initState();
@@ -139,8 +143,8 @@ class AchievementWidgetState extends State<AchievementWidget>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        constraints: BoxConstraints(minHeight: HEIGHT_CARD),
-        margin: EdgeInsets.all(MARGIN_CARD),
+        constraints: const BoxConstraints(minHeight: heightCard),
+        margin: const EdgeInsets.all(marginCard),
         child: ScaleTransition(
           scale: _curvedAnimationScale,
           child: _buildAchievement(),
@@ -155,17 +159,15 @@ class AchievementWidgetState extends State<AchievementWidget>
       borderRadius: _buildBorderCard(),
       color: widget.color,
       child: InkWell(
-        onTap: () {
-          if (widget.onTab != null) {
-            widget?.onTab();
-          }
-        },
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            _buildIcon(),
-            _buildContent(),
-          ],
+        onTap: () => widget.onTap?.call(),
+        child: IntrinsicHeight(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              _buildIcon(),
+              _buildContent(),
+            ],
+          ),
         ),
       ),
     );
@@ -173,7 +175,12 @@ class AchievementWidgetState extends State<AchievementWidget>
 
   Widget _buildIcon() {
     return Container(
-      width: HEIGHT_CARD,
+      decoration: BoxDecoration(
+        borderRadius: widget.iconBorderRadius,
+        color: widget.iconBackgroundColor,
+      ),
+      width: heightCard,
+      alignment: Alignment.center,
       child: widget.icon,
     );
   }
@@ -195,7 +202,7 @@ class AchievementWidgetState extends State<AchievementWidget>
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   _buildTitle(),
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   _buildSubTitle(),
                 ],
               ),
@@ -221,7 +228,7 @@ class AchievementWidgetState extends State<AchievementWidget>
       child: Text(
         widget.title,
         softWrap: true,
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)
+        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)
             .merge(widget.textStyleTitle),
       ),
     );
@@ -241,23 +248,23 @@ class AchievementWidgetState extends State<AchievementWidget>
         },
         child: Text(
           widget.subTitle,
-          style: TextStyle(color: Colors.white).merge(widget.textStyleSubTitle),
+          style: const TextStyle(color: Colors.white)
+              .merge(widget.textStyleSubTitle),
         ));
   }
 
   BorderRadiusGeometry _buildBorderCard() {
     if (widget.isCircle) {
-      return BorderRadius.all(Radius.circular(100));
+      return const BorderRadius.all(Radius.circular(heightCard / 2));
     }
-    return BorderRadius.all(Radius.circular(widget.borderRadius));
+    return widget.borderRadius ?? const BorderRadius.all(Radius.circular(5));
   }
 
-  EdgeInsets _buildPaddingContent() {
-    if (widget.isCircle) {
-      return EdgeInsets.only(right: 25.0, top: 15.0, bottom: 15.0);
-    }
-    return EdgeInsets.only(right: 15.0, top: 15.0, bottom: 15.0);
-  }
+  EdgeInsets _buildPaddingContent() => EdgeInsets.fromLTRB(
+      widget.iconBackgroundColor != null ? 15 : 0,
+      15,
+      widget.isCircle ? 25 : 15,
+      15);
 
   Animation<Offset> _buildAnimatedContent(AnimationController controller) {
     double dx = 0.0;
@@ -277,14 +284,12 @@ class AchievementWidgetState extends State<AchievementWidget>
         {}
         break;
     }
-    return new Tween(begin: Offset(dx, dy), end: Offset(0.0, 0.0))
+    return Tween(begin: Offset(dx, dy), end: const Offset(0.0, 0.0))
         .animate(CurvedAnimation(parent: controller, curve: Curves.decelerate));
   }
 
   void _notifyListener(AchievementState state) {
-    if (widget.listener != null) {
-      widget.listener(state);
-    }
+    widget.listener?.call(state);
   }
 
   void _startTime() {

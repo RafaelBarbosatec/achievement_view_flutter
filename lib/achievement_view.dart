@@ -5,34 +5,40 @@ class AchievementView {
   final BuildContext _context;
   final AlignmentGeometry alignment;
   final Duration duration;
-  final GestureTapCallback onTab;
-  final Function(AchievementState) listener;
+  final GestureTapCallback? onTap;
+  final Function(AchievementState)? listener;
   final bool isCircle;
   final Widget icon;
   final AnimationTypeAchievement typeAnimationContent;
-  final double borderRadius;
+  final BorderRadiusGeometry? borderRadius;
+  final BorderRadiusGeometry? iconBorderRadius;
   final Color color;
-  final TextStyle textStyleTitle;
-  final TextStyle textStyleSubTitle;
+  final Color? iconBackgroundColor;
+  final TextStyle? textStyleTitle;
+  final TextStyle? textStyleSubTitle;
   final String title;
   final String subTitle;
   final double elevation;
+  final OverlayState? overlay;
 
-  OverlayEntry _overlayEntry;
+  OverlayEntry? _overlayEntry;
 
   AchievementView(
     this._context, {
     this.elevation = 2,
-    this.onTab,
+    this.onTap,
     this.listener,
+    this.overlay,
     this.isCircle = false,
     this.icon = const Icon(
       Icons.insert_emoticon,
       color: Colors.white,
     ),
     this.typeAnimationContent = AnimationTypeAchievement.fadeSlideToUp,
-    this.borderRadius = 5.0,
+    this.borderRadius,
+    this.iconBorderRadius,
     this.color = Colors.blueGrey,
+    this.iconBackgroundColor,
     this.textStyleTitle,
     this.textStyleSubTitle,
     this.alignment = Alignment.topCenter,
@@ -50,7 +56,7 @@ class AchievementView {
           subTitle: subTitle,
           duration: duration,
           listener: listener,
-          onTab: onTab,
+          onTap: onTap,
           isCircle: isCircle,
           elevation: elevation,
           textStyleSubTitle: textStyleSubTitle,
@@ -58,10 +64,10 @@ class AchievementView {
           icon: icon,
           typeAnimationContent: typeAnimationContent,
           borderRadius: borderRadius,
+          iconBorderRadius: iconBorderRadius,
           color: color,
-          finish: () {
-            _hide();
-          },
+          iconBackgroundColor: iconBackgroundColor,
+          finish: _hide,
         ),
       );
     });
@@ -70,7 +76,7 @@ class AchievementView {
   void show() {
     if (_overlayEntry == null) {
       _overlayEntry = _buildOverlay();
-      Overlay.of(_context).insert(_overlayEntry);
+      (overlay ?? Overlay.of(_context))?.insert(_overlayEntry!);
     }
   }
 
