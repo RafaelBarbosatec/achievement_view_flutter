@@ -30,6 +30,7 @@ class AchievementWidget extends StatefulWidget {
   final TextStyle? textStyleSubTitle;
   final String title;
   final String subTitle;
+  final Widget? customContent;
 
   const AchievementWidget({
     Key? key,
@@ -52,6 +53,7 @@ class AchievementWidget extends StatefulWidget {
     this.textStyleSubTitle,
     this.title = "",
     this.subTitle = "",
+    this.customContent,
   }) : super(key: key);
 
   @override
@@ -196,16 +198,16 @@ class AchievementWidgetState extends State<AchievementWidget>
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: _buildPaddingContent(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  _buildTitle(),
-                  const SizedBox(height: 2),
-                  _buildSubTitle(),
-                ],
-              ),
+              child: widget.customContent ??
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        _buildTitle(),
+                        const SizedBox(height: 2),
+                        _buildSubTitle(),
+                      ]),
             ),
           );
         },
