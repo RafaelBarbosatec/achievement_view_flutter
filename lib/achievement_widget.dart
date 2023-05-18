@@ -205,23 +205,37 @@ class AchievementWidgetState extends State<AchievementWidget>
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: _buildPaddingContent(),
-              child: widget.content ??
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      if (widget.title != null) _buildTitle(widget.title!),
-                      if (widget.subTitle != null) ...[
-                        const SizedBox(height: 2),
-                        _buildSubTitle(widget.subTitle!),
+              child: widget.content != null
+                  ? _buildCustomContent(widget.content!)
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        if (widget.title != null) _buildTitle(widget.title!),
+                        if (widget.subTitle != null) ...[
+                          const SizedBox(height: 2),
+                          _buildSubTitle(widget.subTitle!),
+                        ],
                       ],
-                    ],
-                  ),
+                    ),
             ),
           );
         },
       ),
+    );
+  }
+
+  Widget _buildCustomContent(Widget content) {
+    return AnimatedBuilder(
+      animation: _controllerTitle,
+      builder: (_, child) {
+        return FadeTransition(
+          opacity: _controllerTitle,
+          child: child,
+        );
+      },
+      child: content,
     );
   }
 
